@@ -1,18 +1,17 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Home Page</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
-</head>
-<body>
-    <div>
-        <h1>Hello World</h1>
-        <p>Hello who are you</p>    
-    <div>
-    <script src="" async defer></script>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'CSS/home.css' %}">
+{% endblock %}
+
+{% block title %}
+Home Page View
+{% endblock %}
+
+{% block content %}
+<h1>Home Page Using DTL!<h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit neque at, accusantium, esse ullam iste voluptates voluptatibus ratione excepturi et quis!<p>
+<img width="500" src="{% static 'IMG_0275.JPG' %}" alt="Red Rock">
+
+{% endblock %}
