@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from django.shortcuts import HttpResponse, render
 
 
 # Each view is a function that receives the incoming request and
@@ -13,6 +14,11 @@ class HomePageView(TemplateView):
         print(context)
         return context
 
-
 class AboutPageView(TemplateView):
     template_name = "pagesTemplates/about.html"
+
+def contact_page(request):
+    # print(request.__dict__)
+    # return HttpResponse("Hello World from a FBV")
+
+    return render(request, "pagesTemplates/contact.html")
