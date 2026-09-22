@@ -1,19 +1,17 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>About Page</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
-</head>
-<body>
-    <div>
-        <h1>Who is Jey Lofton?</h1>
-    </div>
-    <section>
-        <p>My name is Jey Lofton. I’m a filmmaker, writer, producer, entrepreneur, Army veteran, and software engineering student. A lot of who I am comes from the experiences I’ve had, the things I’ve survived, and the decision I made a long time ago to keep growing instead of allowing my past to define where I end up.</p>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'CSS/about.css' %}">
+{% endblock %}
+
+{% block title %}
+About Page
+{% endblock %}
+
+{% block content %}
+<h1>Who is Jey Lofton?</h1>
+<p>My name is Jey Lofton. I’m a filmmaker, writer, producer, entrepreneur, Army veteran, and software engineering student. A lot of who I am comes from the experiences I’ve had, the things I’ve survived, and the decision I made a long time ago to keep growing instead of allowing my past to define where I end up.</p>
 
         <p>I spent over 15 years in the U.S. Army and eventually became a Staff Sergeant. I deployed multiple times, served in leadership positions, and spent years teaching and training others. The military gave me discipline, structure, adaptability, and a different perspective on life. It also taught me that plans don’t always go the way you expect, so you have to know how to adjust without losing sight of the mission.</p>
 
@@ -32,7 +30,6 @@
         <p>At the same time, I believe accountability and empathy can exist together. I can understand why someone became who they are and still believe they have a responsibility for what they do next. That applies to other people, but it also applies to me. I believe becoming a better version of yourself requires being willing to look at yourself honestly.</p>
 
         <p>At this stage of my life, I’m focused on creating, learning, building, providing for my family, and becoming more intentional about how I spend my time. I’ve lived a life centered around service and responsibility. Now I’m building a life centered around ownership, purpose, creativity, and leaving something meaningful behind.</p>
-    </section>
-    <script src="" async></script>
-</body>
-</html>
+<img width="500" src="{% static 'Me.jpeg' %}" alt="Me">
+
+{% endblock %}
