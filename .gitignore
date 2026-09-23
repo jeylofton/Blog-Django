@@ -1,2 +1,6 @@
 venv
 *__pycache__*
+._db.sqlite3__
+._urls.py 
+.__pycache__
+._.gitignore
