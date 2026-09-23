@@ -1,6 +1,9 @@
 venv
 *__pycache__*
 ._db.sqlite3__
+._db.sqlite3
 ._urls.py 
 .__pycache__
 ._.gitignore
+.db.sqlite3-shm
+.db.sqlite3-wal
