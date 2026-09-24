@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block css %}
@@ -18,7 +19,7 @@ All Posts
             <h3>Title: {{ item.title }}</h3>
             <span><strong>Author: {{ item.author }}</strong></span>
             <p>Body: {{ item.body|truncatechars:5 }}</p>
-            <a href="#">Continue reading...</a>
+            <a href="{% url 'post_detail' item.id %}">Continue reading...</a>
         </li>
         {% endfor %}
     </ul>
