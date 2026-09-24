@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'CSS/about.css' %}">
+{% endblock %}
+
+
+{% block title %}
+All Posts
+{% endblock %}
+
+{% block content %}
+    <h1>All Posts</h1>
+    <ul>
+        {% for item in posts %}
+        <li>
+            <h3>Title: {{ item.title }}</h3>
+            <span><strong>Author: {{ item.author }}</strong></span>
+            <p>Body: {{ item.body|truncatechars:5 }}</p>
+            <a href="#">Continue reading...</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
