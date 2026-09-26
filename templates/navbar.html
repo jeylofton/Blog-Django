@@ -17,4 +17,16 @@
 <li class="nav-item">
     <a class="nav-link" href="{% url 'login' %}">Login</a>
 </li>
+    {% if user.is_unauthenticated %}
+<li class="nav-item">
+        <span class="badge text-bg-info">{{ user.username }}</span>
+</li>
+{% else %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'logout' %}">Logged Out</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+</li>
+    {% endif %}
 </ul>
