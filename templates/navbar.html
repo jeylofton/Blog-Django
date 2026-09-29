@@ -14,16 +14,22 @@
 <li class="nav-item">
     <a class="nav-link" href="{% url 'post_new' %}">Create Post</a>
 </li>
+    {% if user.is_authenticated %}
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'login' %}">Login</a>
+    <a class="nav-link" href="{% url 'password_change' %}">Change Password</a>
 </li>
-    {% if user.is_unauthenticated %}
 <li class="nav-item">
-        <span class="badge text-bg-info">{{ user.username }}</span>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="nav-link">Log Out</button>
+    </form>
+</li>
+<li class="nav-item">
+    <span class="badge text-bg-info">{{ user.username }}</span>
 </li>
 {% else %}
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'logout' %}">Logged Out</a>
+    <a class="nav-link" href="{% url 'login' %}">Login</a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
