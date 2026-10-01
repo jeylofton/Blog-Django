@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'pages',
     'posts',
     'accounts',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +130,6 @@ EMAIL_BACKEND = "config.mail.PlainConsoleEmailBackend"
 
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+CRISPY_ALLOWED_TEMPLATES_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
