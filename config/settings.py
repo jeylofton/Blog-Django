@@ -124,10 +124,7 @@ STATICFILES_DIRS =[str(BASE_DIR.joinpath("static"))]
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+EMAIL_BACKEND = "config.mail.PlainConsoleEmailBackend"
 
 LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
