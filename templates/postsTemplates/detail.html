@@ -15,7 +15,9 @@ Post {{ single_post.id }}
 <h2>Title: {{ single_post.title }}</h2>
 <h3>Subtitle: {{ single_post.subtitle}}</h3>
 <span><strong>Author: {{ single_post.author }}</strong></span>
+<h3>Status: {{ single_post.status.name }}</h3>
 <span><strong>Date: {{ single_post.created_on }}</strong></span>
+<p>Status: {{ single_post.status.name }}</p>
 <hr>
 <p>{{ single_post.body}}</p>
 <br>

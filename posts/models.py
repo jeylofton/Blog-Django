@@ -10,8 +10,12 @@ class Status(models.Model):
         help_text="Write a description about the status"
     )
 
+    class Meta:
+        verbose_name = "Status"
+        verbose_name_plural = "Statuses"
+
     def __str__(self):
-        return self.name
+        return f"Status: {self.name}"
 
 
 class Post(models.Model):
@@ -23,7 +27,11 @@ class Post(models.Model):
         User,
         on_delete=models.CASCADE
     )
-
+    status = models.ForeignKey(
+        Status,
+        on_delete=models.DO_NOTHING
+        )
+        
 
     def __str__(self):
         return f"{self.title} by {self.author}"

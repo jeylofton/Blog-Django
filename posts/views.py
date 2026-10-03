@@ -7,15 +7,44 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from .models import Post
+from .models import Post, Status
 
 # Create your views here.
 class PostListView(ListView):
     template_name = "postsTemplates/list.html"
-
     model = Post
-
     context_object_name = "posts"
+
+    def get_queryset(self):
+        status = Status.objects.get(name="Published")
+        return Post.objects.filter(status=status).order_by("created_on")
+
+
+class PostDraftListView(LoginRequiredMixin, ListView):
+    template_name = "postsTemplates/list.html"
+    model = Post
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        status = Status.objects.get(name="Draft")
+        return Post.objects.filter(
+            status=status,
+            author=self.request.user
+        ).order_by("created_on")
+
+
+class PostArchivedListView(LoginRequiredMixin, ListView):
+    template_name = "postsTemplates/list.html"
+    model = Post
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        status = Status.objects.get(name="Archived")
+        return Post.objects.filter(
+            status=status,
+            author=self.request.user
+        ).order_by("created_on")
+
 
 class PostDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "postsTemplates/detail.html"
@@ -28,7 +57,7 @@ class PostDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 class PostCreateView(LoginRequiredMixin, CreateView):
         template_name = "postsTemplates/new.html"
         model = Post
-        fields = ["title", 'subtitle', "body"]
+        fields = ["title", 'subtitle', "body", "status"]
 
         def form_valid(self, form):
             form.instance.author = self.request.user
@@ -37,7 +66,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = "postsTemplates/edit.html"
     model = Post
-    fields =["title", "subtitle", "body"]
+    fields =["title", "subtitle", "body", "status"]
 
     def test_func(self):
         return self.get_object().author == self.request.user
