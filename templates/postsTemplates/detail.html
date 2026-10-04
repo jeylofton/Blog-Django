@@ -6,6 +6,8 @@
 {% endblock %}
 
 
+{% load crispy_forms_tags %}
+
 {% block title %}
 Post {{ single_post.id }}
 {% endblock %}
@@ -17,11 +19,26 @@ Post {{ single_post.id }}
 <span><strong>Author: {{ single_post.author }}</strong></span>
 <h3>Status: {{ single_post.status.name }}</h3>
 <span><strong>Date: {{ single_post.created_on }}</strong></span>
-<p>Status: {{ single_post.status.name }}</p>
 <hr>
 <p>{{ single_post.body}}</p>
 <br>
 <a href="{% url 'post_edit' single_post.id %}" class="btn btn-primary">Edit</a>
 <a href="{% url 'post_delete' single_post.id %}" class="btn btn-primary">Delete</a>
-{% endblock %}
+<hr>
+<h4>Comments ({{ comments|length }})</h4>
+{% for comment in comments %}
+<div class="mb-3">
+    <strong>{{ comment.author }}</strong>
+    <small>{{ comment.created_on }}</small>
+    <p>{{ comment.body }}</p>
+</div>
+{% empty %}
+<p>No comments yet.</p>
+{% endfor %}
 
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Add Comment" class="btn btn-success">
+</form>
+{% endblock %}

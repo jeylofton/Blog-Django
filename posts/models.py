@@ -39,3 +39,19 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse("post_detail", args=[self.id])
     
+
+class Comment(models.Model):
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    # Many to Many: a comment can be linked to many posts, a post can have many comments
+    posts = models.ManyToManyField(Post, related_name="comments")
+
+    class Meta:
+        ordering = ["created_on"]
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.created_on:%Y-%m-%d %H:%M}"
