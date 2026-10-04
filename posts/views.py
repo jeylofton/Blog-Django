@@ -9,9 +9,16 @@ from django.views.generic import (
 )
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.urls import reverse, reverse_lazy
-from .models import Post, Status
+from .models import Post
 from .forms import CommentForm
+
+
+def visible_posts(user):
+    """Posts this user may open: everything except other people's drafts."""
+    return Post.objects.filter(~Q(status__name="Draft") | Q(author=user))
+
 
 # Create your views here.
 class PostListView(ListView):
@@ -20,8 +27,9 @@ class PostListView(ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        status = Status.objects.get(name="Published")
-        return Post.objects.filter(status=status).order_by("created_on")
+        return Post.objects.filter(
+            status__name="Published"
+        ).order_by("created_on")
 
 
 class PostDraftListView(LoginRequiredMixin, ListView):
@@ -30,9 +38,8 @@ class PostDraftListView(LoginRequiredMixin, ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        status = Status.objects.get(name="Draft")
         return Post.objects.filter(
-            status=status,
+            status__name="Draft",
             author=self.request.user
         ).order_by("created_on")
 
@@ -43,9 +50,8 @@ class PostArchivedListView(LoginRequiredMixin, ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        status = Status.objects.get(name="Archived")
         return Post.objects.filter(
-            status=status,
+            status__name="Archived",
             author=self.request.user
         ).order_by("created_on")
 
@@ -66,6 +72,9 @@ class PostDetailView(LoginRequiredMixin, DetailView):  # GET Request -> Single O
     model = Post
     context_object_name = "single_post"
 
+    def get_queryset(self):
+        return visible_posts(self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = CommentForm()
@@ -78,6 +87,9 @@ class PostCommentFormView(LoginRequiredMixin, SingleObjectMixin, FormView):
     form_class = CommentForm
     model = Post
     context_object_name = "single_post"
+
+    def get_queryset(self):
+        return visible_posts(self.request.user)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -114,6 +126,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields =["title", "subtitle", "body", "status"]
 
     def test_func(self):
+        # Not the author -> 403 Access Denied (a missing post is still a 404)
         return self.get_object().author == self.request.user
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -122,4 +135,5 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy("post_list")
 
     def test_func(self):
+        # Not the author -> 403 Access Denied (a missing post is still a 404)
         return self.get_object().author == self.request.user
